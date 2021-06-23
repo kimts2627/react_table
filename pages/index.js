@@ -1,9 +1,11 @@
-import styles from '../styles/Home.module.css'
+import Table from '../components/Table'
 
-export default function Home() {
+const Home = () => {
   return (
-    <div className={styles.container}>
-      Hello world
+    <div className='w-192 h-full border shadow-lg p-5'>
+      <Table />
     </div>
   )
 }
+
+export default Home;

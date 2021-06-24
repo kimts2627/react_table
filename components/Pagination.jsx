@@ -1,25 +1,32 @@
 import React from 'react';
 
-const Pagenation = () => {
+const Pagination = ({
+  pageCount,
+  pageSize,
+  pageIndex,
+  setPageCount,
+  setPageIndex,
+  setPageSize,
+}) => {
 
   return (
     <section>
-      <button onClick={undefined} >
+      <button onClick={() => setPageIndex(0)} >
         {"<<"}
       </button>{" "}
-      <button onClick={undefined} >
+      <button onClick={() => setPageIndex(pageIndex - 1)} >
         {"<"}
       </button>{" "}
-      <button onClick={undefined} >
+      <button onClick={() => setPageIndex(pageIndex + 1)} >
         {">"}
       </button>{" "}
-      <button onClick={undefined} >
+      <button onClick={() => setPageIndex(pageCount - 1)} >
         {">>"}
       </button>{" "}
       <span>
         Page{" "}
         <strong>
-          {'hm...'} of {'hmm..'}
+          {Number(pageIndex) + 1} of {pageCount}
         </strong>{" "}
       </span>
       <span>
@@ -29,16 +36,16 @@ const Pagenation = () => {
           defaultValue={'hmmm....'}
           onChange={(e) => {
             const page = e.target.value ? Number(e.target.value) - 1 : 0;
-            // gotoPage(page);
+            setPageIndex(page);
           }}
           style={{ width: "100px" }}
         />
       </span>{" "}
       <select
-        // value={pageSize}
-        // onChange={(e) => {
-        //   setPageSize(Number(e.target.value));
-        // }}
+        value={pageSize}
+        onChange={(e) => {
+          setPageSize(Number(e.target.value));
+        }}
       >
         {[10, 20, 30, 40, 50].map((pageSize) => (
           <option key={pageSize} value={pageSize}>
@@ -50,4 +57,4 @@ const Pagenation = () => {
   )
 }
 
-export default Pagenation;
+export default Pagination;

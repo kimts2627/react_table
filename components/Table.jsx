@@ -1,8 +1,17 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { usePagination, useSortBy, useTable } from 'react-table'
-import Pagenation  from './Pagenation'
+import Pagination  from './Pagination'
 
-const Table = ({data, columns}) => {
+const Table = ({
+  data,
+  columns,
+  pageCount,
+  pageSize,
+  pageIndex,
+  setPageCount,
+  setPageIndex,
+  setPageSize,
+}) => {
 
   const {
     getTableProps,
@@ -10,11 +19,27 @@ const Table = ({data, columns}) => {
     headerGroups,
     rows,
     prepareRow,
-  } = useTable({ columns, data })
+  } = useTable({
+    columns,
+    data,
+    initialState: { pageIndex: 0 },
+    manualPagination: true,
+    pageCount: pageCount,
+    useControlledState: (state) => {
+      return useMemo(
+        () => ({
+          ...state,
+          pageIndex: pageIndex,
+          pageSize: pageSize,
+        }),
+        [state, pageIndex, pageSize]
+      )
+    },
+  }, usePagination)
 
   return (
   <>
-      <table {...getTableProps()}>
+    <table {...getTableProps()}>
       <thead>
         {headerGroups.map((headerGroup) => (
           <tr {...headerGroup.getHeaderGroupProps()}>
@@ -47,7 +72,14 @@ const Table = ({data, columns}) => {
         })}
       </tbody>
     </table>
-    <Pagenation />
+    <Pagination 
+      pageCount={pageCount}
+      pageSize={pageSize}
+      pageIndex={pageIndex}
+      setPageCount={setPageCount}
+      setPageIndex={setPageIndex}
+      setPageSize={setPageSize}
+    />
   </>
   )
 }
